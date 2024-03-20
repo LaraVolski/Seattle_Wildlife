@@ -1,0 +1,85 @@
+---
+title: "Research Questions"
+author: "Lara Volski"
+date: "2024-02-26"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+## An analysis of HWI in King County, WA from 2019 - 2023
+Focusing on **coyotes** and **raccoons**
+
+### Research Questions
+* Where do HWI with coyotes and raccoon occur most frequently throughout the county?
+  + Do these areas vary by pollution index?
+* What is the trajectory of change for HWI across the Covid-19 pandemic?
+  + Did this trajectory of change vary by the socioeconomic characteristics of each area?
+  
+One thing we'll have to decide is how and if we want to aggregate instances of HWI. It will be interesting to answer the above research questions individually for datasource, but we may want to think about how they can be combined. Do we add up each occurence into one aggregate HWI count per census tract? Do we divide it into three categories: 1) spotted wildlife, 2) injured wildlife, 3) wildlife mortality? One thing Glen Kalisz recommends is comparing individual HWI sources to look for correlation. He says: "For instance, I could foresee a scenario where wildlife collision locations and wildlife rehab locations overlap. Same with wildlife sightings and collisions."
+
+### Question 1: Where do HWI with coyotes and raccoons occur most frequently throughout the county? (And does this vary by pollution index?)
+
+To answer this question, we first need to figure out where the hotspots of HWI are. This involves answering these questions:
+
+* PAWS Data: Where were coyotes, and raccoons most frequently rehabbed throughout the county?
+
+* WSDOT Data: Where did collisions with coyotes and raccoons most frequently occur throughout the county?
+
+One potential way of answering this question could be to conduct a **hot spot analysis** aka a **Getis-Ord Gi analysis** in ArcGIS. This is how Wilkinson et al. 2023 analyzed coyote conflict in their paper. A quick google search reveals plenty of tutorials on this methodology.
+
+And now we'll want to investigate how these hotspots vary by pollution index. The only way I know how to do this is via GLMMS (which looks like what Wilkinson et al. 2023 did as well.) I'm assuming the Getis-Ord Gi analysis will create some sort of hotspot metric that we can perhaps assign by census tract. Then, using the metric as the outcome variable in the GLMMS, we can create a series of models with various combinations of pollution covariates and select the preferred models via AIC or BIC or Log-Lik. We're of course going to want to compare these models to the underlying theory and potential confounds -- i.e., does a certain kind of pollution covariate always correlate with one large park where these animals would be likely to be found anyway?
+
+What should these pollution covariates be? Here are some possibilities:
+
+* List them here!
+
+This section will involve answering the following questions:
+
+* PAWS Data: Is pollution index a meaningful predictor of coyote and raccoon rehab events?
+
+* WSDOT Data: Is pollution index a meaningful predictor of coyote and raccoon vehicle collision events? 
+
+### Question 2: What is the trajectory of change for HWI across the Covid-19 pandemic? (And does this vary by socioeconomic characteristics?)
+
+To answer this question, we first need to answer the following sub-questions:
+
+* PAWS data: What is the trajectory of change for PAWS rehabilitation across the Covid-19 pandemic?
+
+* WSDOT Data: What is the trajectory of change for vehicle collisions across the Covid-19 pandemic?
+
+One potential way of answering these questions is to create a **longitudinal multi-level model for change.** These models are used to understand a) how something varies over time and then b) if that trajectory of change varies by given covariates. It requires the following: 1) individuals that are sampled repeatedly, 2) at least 3 waves of data, and 3) an outcome metric that is objectively comparable. Here, our "individual" could be census tract. Each year can constitute a new wave, with 0 as 2019, 1 as 2020, 2 as 2022, and 3 as 2023 (for a total of 4 waves. We could always divide these waves into months, however, if we want to account for seasonal variation.) And our outcome metric would be some count of HWI instance, which we can divide by the area of each census tract in order to account for geographic differences in size. Then, we would create a **level-1 model for change** to see what the general trajectory looks like (does it go up over time? down over time? is it linear, quadratic, cubic?) This would involve creating multiple change trajectories and then using AIC or BIC to select the best one. Or Log-Lik. Or a chi-square test of Log-Lik. 
+
+Now, our second part of this question involves looking at how the average growth trajectories change by various socioeconomic covariates. What should these covariates be? Here are some possibilities: 
+
+* List covariates here, whether they are continuous or binary, whether they are time-varying or time-invariant 
+
+We're then going to want to answer each of these sub-questions before we figure out how to aggregate them into one 
+
+* PAWS data: How does the trajectory of change for PAWS rehabilitation across the Covid-19 pandemic change depending on the various socioeconomic factors of each census tract?
+
+* WSDOT Data: How does the trajectory of change for WSDOT vehicle collisions across the Covid-19 pandemic change depending on the various socioeconomic factors of each census tract?
+
+Answering this question will involve creating a **level-2 model for change**. This means preserving the preferred level-1 model, and then creating a series of models with various socioeconomic covariates added, and then using AIC/BIC/Log-Lik to select the preferred model. 
+
+Other things to keep in mind wh
+
+### Lingering Questions:
+
+* How should we incorporate coyote and raccoon natural histories into this analysis? If we treat the unit of analysis as each whole year, perhaps seasonal variation doesn't matter, but if we expand the unit of analysis to each indivudal month, then it certainly does. 
+
+### Paws Dataset Investigation
+
+### WSDOT Dataset Investigation
+
+We will want to account for potential confounds/other correlates of vehicle collisions. These can include:
+
+* Weather
+* Road infrastructure
+* Traffic volume can affect wildlife-vehicle collision rates in a couple ways and might be a worthy metric to include when investigating correlates. 
+
+Covid may have impacted vehicle collisions in the following ways:
+
+Pollution may impact vehicle collisions in the following ways:
+
+* "If high levels of pollution are making animals less fit in urban areas, it could lead to decreased reaction times, a willingness to take greater risks, or some other behavior that could increase the probability of being hit by a car." -- Glen
